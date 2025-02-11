@@ -15,7 +15,7 @@ struct ContentView: View {
         correctAnswerIndex: 2
     )
     
-    let mainColor = Color(
+    @State var mainColor = Color(
         red: 20/255,
         green: 28/255,
         blue: 58/255
@@ -35,26 +35,15 @@ struct ContentView: View {
                     .multilineTextAlignment(.leading)
                 Spacer()
                 HStack {
-                    Button(action: {
-                        print("Tapped on Choice 1")
-                    }, label: {
-                        ChoiceTextView(choiceText: question.possibleAnswers[0])
-                    })
-                    Button(action: {
-                        print("Tapped on Choice 2")
-                    }, label: {
-                        ChoiceTextView(choiceText: question.possibleAnswers[1])
-                    })
-                    Button(action: {
-                        print("Tapped on Choice 3")
-                    }, label: {
-                        ChoiceTextView(choiceText: question.possibleAnswers[2])
-                    })
-                    Button(action: {
-                        print("Tapped on Choice 4")
-                    }, label: {
-                        ChoiceTextView(choiceText: question.possibleAnswers[3])
-                    })
+                    ForEach(0..<question.possibleAnswers.count) {
+                        answerIndex in
+                        Button(action: {
+                            print("Tapped on option with the text \(question.possibleAnswers[answerIndex])")
+                            mainColor = answerIndex == question.correctAnswerIndex ? .green : .red
+                        }, label: {
+                            ChoiceTextView(choiceText: question.possibleAnswers[answerIndex])
+                        })
+                    }
                 }
             }
         }
